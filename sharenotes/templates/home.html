@@ -39,8 +39,7 @@
             localStorage.setItem('editorContent', editor.value);
         });
 
-        let DarkModeButton = document.createElement('darkmodebtn');
-        DarkModeButton.addEventListener('click', function(){
+         function darkmode(){
             if(editor.style.backgroundColor === BACKGROUND_COLOR){
                 editor.style.backgroundColor = '#000000';
                 editor.style.color = '#f8f8f8';
@@ -48,7 +47,7 @@
                 editor.style.backgroundColor = BACKGROUND_COLOR;
                 editor.style.color = TEXT_COLOR;
             }
-        });
+        }
 
 
     </script>
