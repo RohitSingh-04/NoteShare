@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block heads %}
+    <style>
+        #editor{
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            resize: vertical; 
+        }
+    </style>
+{% endblock heads %}
+
+{% block content %}
+    <form action="">
+        <textarea type="text" name="" id="editor"></textarea>
+    </form>
+
+    <script>
+        let BACKGROUND_COLOR = '#f8f8f8';
+        let TEXT_COLOR = '#000000';
+        let FONT_SIZE = '14px';
+        let FONT_FAMILY = 'monospace';
+
+        let editor = document.getElementById('editor');
+        editor.style.backgroundColor = BACKGROUND_COLOR;
+        editor.style.color = TEXT_COLOR;
+        editor.style.fontSize = FONT_SIZE;
+        editor.style.fontFamily = FONT_FAMILY;
+
+        let editorContent = localStorage.getItem('editorContent');
+        if(editorContent){
+            editor.value = editorContent;
+        }
+
+        editor.addEventListener('input', function(){
+            localStorage.setItem('editorContent', editor.value);
+        });
+
+        let DarkModeButton = document.createElement('darkmodebtn');
+        DarkModeButton.addEventListener('click', function(){
+            if(editor.style.backgroundColor === BACKGROUND_COLOR){
+                editor.style.backgroundColor = '#000000';
+                editor.style.color = '#f8f8f8';
+            }else{
+                editor.style.backgroundColor = BACKGROUND_COLOR;
+                editor.style.color = TEXT_COLOR;
+            }
+        });
+
+
+    </script>
+{% endblock content %}
