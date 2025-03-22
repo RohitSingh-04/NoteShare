@@ -20,6 +20,7 @@
 
     <script>
         let BACKGROUND_COLOR = '#f8f8f8';
+        let DARKMODE_BACKGROUND_COLOR = '#121231';
         let TEXT_COLOR = '#000000';
         let FONT_SIZE = '14px';
         let FONT_FAMILY = 'monospace';
@@ -39,14 +40,34 @@
             localStorage.setItem('editorContent', editor.value);
         });
 
-         function darkmode(){
-            if(editor.style.backgroundColor === BACKGROUND_COLOR){
-                editor.style.backgroundColor = '#000000';
+        function darkmode(){
+            if(getColor().toLowerCase() === BACKGROUND_COLOR.toLowerCase()){
+                editor.style.backgroundColor = DARKMODE_BACKGROUND_COLOR;
                 editor.style.color = '#f8f8f8';
             }else{
                 editor.style.backgroundColor = BACKGROUND_COLOR;
                 editor.style.color = TEXT_COLOR;
             }
+        }
+
+        function getColor(){
+            let color = editor.style.backgroundColor;
+
+            color = color.replace('rgb(', '').replace(')', '').split(',');
+            color = color.map(function(value){
+                return parseInt(value);
+            });
+            
+            color = color.map(function(value){
+                return decimal2hex(value);
+            });
+
+            color = '#' + color.join('');
+            return color;
+        }
+
+        function decimal2hex(d) {
+            return d.toString(16).padStart(2, "0").toUpperCase();
         }
 
 
