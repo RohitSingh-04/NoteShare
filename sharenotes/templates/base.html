@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="/static/css/alerts.css">
+    <link rel="stylesheet" href="/static/css/nav.css">
     {% block heads %}
         
     {% endblock heads %}
@@ -13,35 +15,7 @@
             margin: 0%;
             padding: 0%;
             font-family: Arial, sans-serif;
-        }
-
-        header nav div{
-            display: flex;
-            flex-direction: row;
-            background-color: #A7B7C7;
-            justify-content: center;
-            align-items: center;
-            
-        }
-        nav{
-            align-content: space-around;
-        }
-        nav div a{
-            border-radius: 2%;
-            margin-right: 15px;
-            text-decoration: none;
-            color: white;
-            align-items: center;
-        }
-        nav div a:hover{
-            color: #9900FF;
-        }
-        nav div button {
-            background-color: #A7B7C7;
-            border: #A7B7C7;
-            border-radius: 50%;
-        }
-
+        }  
         </style>
 </head>
 <body>
@@ -57,6 +31,15 @@
             </div>
         </nav>
     </header>
+
+    {% if message %}
+        
+    <div class="alert {{ message_type }}-alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ message }}
+    </div>
+    
+    {% endif %}
 
     {% block content %}
         
