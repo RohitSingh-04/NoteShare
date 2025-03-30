@@ -17,14 +17,19 @@
             font-family: Arial, sans-serif;
         }  
         </style>
+    <link rel="stylesheet" href="/static/css/save.css">
+    <script src="/static/js/saveDialog.js"></script>
+    <script src="/static/js/save.js"></script>
+
 </head>
 <body>
+    {% csrf_token %} 
 
     <header>
         <nav>
             <div>
                 <a href="/">Home</a>
-                <a href="/save">Save</a>
+                <a href="#save-dialog" onclick="show_save_dialog()">Save</a>
                 <a href="/open">Open</a>
                 <a href="/share">Share</a>
                 <button id = "darkmodebtn" onclick="darkmode()"><img width="25" height="25" src="https://img.icons8.com/pulsar-color/50/do-not-disturb-2.png" alt="do-not-disturb-2"/></button>

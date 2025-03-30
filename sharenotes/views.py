@@ -26,7 +26,6 @@ def register(request):
             return render(request, 'register.html', {'page_title': 'Register - Error', 'message': 'User creation failed!', 'message_type': 'error'})
         else:
             user.save()
-
             return render(request, 'home.html', {'message': 'User created successfully!', 'message_type': 'success'})
     if request.method == "GET":
         return render(request=request, template_name="register.html", context = { "page_title" : "Register"})
@@ -56,8 +55,9 @@ def save_note(request):
     if request.method == "POST":
         title = request.POST.get('title')
         content = request.POST.get('content')
+        sharable = request.POST.get('shareable')
 
-        note = Notes(title=title, content=content, author=request.user)
+        note = Notes(title=title, content=content, author=request.user, shared=sharable)
         note.save()
 
         return render(request, 'home.html', {'message': 'Note saved successfully!', 'message_type': 'success'})
