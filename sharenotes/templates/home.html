@@ -18,6 +18,47 @@
         <textarea type="text" name="content" id="editor"></textarea>
     </form>
 
+    {% if open_note %}
+        <script>
+            localStorage.setItem('editorContent', "{{ opened_note.content }}");
+            document.getElementById('editor').value = "{{ opened_note.content }}";
+        </script>
+    {% endif %}
+
+    {% if show_notes %}
+        <div class = "open-notes-popup" id = "notes-popup">
+            <h2 class = "notes-type-heading">User Notes</h2>
+            <ul class = "notes-list">
+                {% for note in user_notes %}
+                    <li><a href = "/open/{{ note.id }}">{{ note.title }}</a></li>
+                {% endfor %}
+            </ul>
+
+            {% if shared_notes|length > 0 %}
+            <h2 class = "notes-type-heading">Shared Notes</h2>
+            <ul class = "notes-list">
+                {% for note in shared_notes %}
+                <li><a href = "/open/{{ note.id }}">{{ note.title }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <button onclick="remove_show_notes()">Close</button>
+
+        </div>
+        <script>
+            function remove_show_notes(){
+                document.getElementById('notes-popup').remove();
+            }
+        </script>
+    {% endif %}
+
+    {% if open_note %}
+        <script>
+            document.getElementById('editor').value = "{{ opened_note.content }}";
+        </script>
+    {% endif %}
+
     <script>
         let BACKGROUND_COLOR = '#f8f8f8';
         let DARKMODE_BACKGROUND_COLOR = '#121231';
@@ -72,4 +113,11 @@
 
 
     </script>
+
+    {% if new %}
+        <script>
+            localStorage.setItem('editorContent', '');
+            document.getElementById('editor').value = '';
+        </script>
+    {% endif %}
 {% endblock content %}

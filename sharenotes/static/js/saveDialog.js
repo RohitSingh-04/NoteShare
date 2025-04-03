@@ -74,23 +74,6 @@ class SaveDialog{
         return contentbox;
     }
 
-    createSharableCheckbox(){
-        let checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.name = "sharable";
-        checkbox.id = "sharable-checkbox";
-        checkbox.value = "true";
-
-        let label = document.createElement("label");
-        label.innerText = "Make this note sharable";
-        label.setAttribute("for", "sharable-checkbox");
-
-        let container = document.createElement("div");
-        container.appendChild(checkbox);
-        container.appendChild(label);
-
-        return container;
-    }
 
     getElement(){
         return this.component;

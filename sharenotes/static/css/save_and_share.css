@@ -1,4 +1,4 @@
-.save-dialog{
+.save-dialog, .share-dialog{
     position: fixed;
     top: 0;
     left: 0;

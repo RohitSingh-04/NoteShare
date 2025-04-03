@@ -17,9 +17,13 @@
             font-family: Arial, sans-serif;
         }  
         </style>
-    <link rel="stylesheet" href="/static/css/save.css">
+    <link rel="stylesheet" href="/static/css/save_and_share.css">
+    <link rel="stylesheet" href="/static/css/open.css">
     <script src="/static/js/saveDialog.js"></script>
     <script src="/static/js/save.js"></script>
+    <script src="/static/js/shareDialog.js"></script>
+    <script src="/static/js/share.js"></script>
+
 
 </head>
 <body>
@@ -28,10 +32,22 @@
     <header>
         <nav>
             <div>
-                <a href="/">Home</a>
-                <a href="#save-dialog" onclick="show_save_dialog()">Save</a>
-                <a href="/open">Open</a>
-                <a href="/share">Share</a>
+                {% if request.user.is_authenticated %}
+                    <a href="/logout/">Logout</a>
+                {% else %}
+                    <a href="/login/">Login</a>
+                {% endif %}
+
+
+                <a href="/">New</a>
+                {% if request.user.is_authenticated %}
+                    
+                <a href="/profile/">Profile</a>
+                <a href="#save-dialog" onclick="show_save_dialog('{{ opened_note.title }}', '{{ opened_note.id }}')">Save</a>
+                <a href="/show-notes">Open</a>
+                <a href="#" onclick="showsharedialog('{{ opened_note.id }}')">Share</a>
+                
+                {% endif %}
                 <button id = "darkmodebtn" onclick="darkmode()"><img width="25" height="25" src="https://img.icons8.com/pulsar-color/50/do-not-disturb-2.png" alt="do-not-disturb-2"/></button>
             </div>
         </nav>

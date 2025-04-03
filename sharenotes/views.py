@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .models import Notes
+from .methods import Opened_Note
 
 # Create your views here.
 def home(request):
-    return render(request=request, template_name="home.html", context = { "page_title" : "home"})
+    return render(request=request, template_name="home.html", context = { "page_title" : "home - New", "new": True})
 
 def register(request):
     if request.method == "POST":
@@ -55,28 +57,84 @@ def save_note(request):
     if request.method == "POST":
         title = request.POST.get('title')
         content = request.POST.get('content')
-        sharable = request.POST.get('shareable')
 
-        note = Notes(title=title, content=content, author=request.user, shared=sharable)
+        note = Notes(title=title, content=content, author=request.user)
         note.save()
-
-        return render(request, 'home.html', {'message': 'Note saved successfully!', 'message_type': 'success'})
-    
-    if request.method == "GET":
-        return render(request=request, template_name="save_note.html", context = { "page_title" : "Save Note"})
+        url = reverse('open_note', args=[note.id])
+        return redirect(f'{url}?message=Note saved successfully!&message_type=success')
 
 @login_required(login_url='/login/')
-def share_note(request):
-    ...
+def profile(request):
+    return render(request=request, template_name="profile.html", context = {"page_title" : "Profile"})
+
+@login_required(login_url='/login/')
+def share_note(request, note_id):
+    if request.method == "POST":
+        user_name = request.POST.get('user_name')
+        note = Notes.objects.get(id=note_id)
+        
+        user_to_share = User.objects.get(username=user_name)
+
+        if request.user != note.author:
+            
+            url = reverse('open_note', args=[note.id])
+            return redirect(f'{url}?message=You do not have permission to share this note!&message_type=warning')
+
+        if note and user_to_share:
+            note.shared_with.add(user_to_share)
+            note.save()
+            url = reverse('open_note', args=[note.id])
+            return redirect(f'{url}?message=Note shared successfully!&message_type=success')
+        else:
+            url = reverse('open_note', args=[note.id])
+            return redirect(f'{url}?message=Note not found!&message_type=error')
 
 @login_required(login_url='/login/')
 def open_note(request, note_id):
-    ...
+    note = Notes.objects.get(id=note_id)
+    message = request.GET.get('message', None)
+    message_type = request.GET.get('message_type', None)
+
+    if note:
+        if note.author == request.user or request.user in note.shared_with.all():
+            if message:
+                return render(request, 'home.html', {'message': message, 'message_type': message_type}|Opened_Note(note))
+            else:
+                return render(request, 'home.html', Opened_Note(note))
+        else:
+            return render(request, 'home.html', {'message': 'You do not have permission to view this note!', 'message_type': 'warning'})
+    else:
+        return render(request, 'home.html', {'message': 'Note not found!', 'message_type': 'error'})
 
 @login_required(login_url='/login/')
 def delete_note(request, note_id):
     ...
 
 @login_required(login_url='/login/')
-def open_shared_notes(request):
-    ...
+def show_notes(request):
+    user_notes = Notes.objects.filter(author = request.user)
+    shared_notes = Notes.objects.filter(shared_with = request.user)
+
+    return render(request=request, template_name="home.html", context = { "page_title" : "Show Notes", "user_notes": user_notes, "shared_notes": shared_notes, "show_notes": True})
+
+@login_required(login_url='/login/')
+def update_note(request, note_id):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+
+        note = Notes.objects.get(id=note_id)
+
+        if not note:
+            return redirect('new', message='Note not found!', message_type='error')
+
+        if note.author != request.user:
+            url = reverse('open_note', args=[note.id])
+            return redirect(f'{url}?message=You do not have permission to update this note!&message_type=warning')
+
+        note.title = title
+        note.content = content
+        note.save()
+        url = reverse('open_note', args=[note.id])
+        return redirect(f'{url}?message=Note updated successfully!&message_type=success')
+    
