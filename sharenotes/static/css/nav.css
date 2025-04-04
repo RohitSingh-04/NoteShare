@@ -24,3 +24,11 @@ nav div button {
     border: #A7B7C7;
     border-radius: 50%;
 }
+
+.login-button:hover{
+    color: blue;
+}
+
+.logout-button:hover{
+    color: red;
+}
