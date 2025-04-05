@@ -1,0 +1,39 @@
+.auth-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 30%;
+    margin-left: 35vw;
+    margin-top: 30vh;
+    padding: 5vh;
+    background-color: #888887;
+    border-radius: 10px;
+}
+
+.mb-2{
+    margin-bottom: 1vh;
+}
+
+.auth-form-button{
+    color: blue;
+    border: 2px solid blue;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 8vw;
+    height: 5vh;
+}
+
+.auth-form-button:hover{
+    background-color: blue;
+    color: whitesmoke;
+
+}
+.input-box-auth{
+    width: 25vw;
+    border-radius: 20px;
+    height: 4vh;
+}
+.h1-auth{
+    color: white;
+}

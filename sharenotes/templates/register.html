@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 
 {% block heads %}
-    
+<link rel="stylesheet" href="/static/css/auth.css">
 {% endblock heads %}
 
 {% block content %}
 
-<form action="/register/" method="post">
+<form action="/register/" method="post" class = "auth-form">
     {% csrf_token %}
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="submit" value="Register">
-
+    <h1 class="h1-auth">Register</h1>
+    <input type="text" name="username" placeholder="Username"  class = "mb-2 input-box-auth" required>
+    <input type="email" name="email" placeholder="Email"  class = "mb-2 input-box-auth" required>
+    <input type="password" name="password" placeholder="Password"  class = "mb-2 input-box-auth" required>
+    <input type="submit" value="Register" class = "mb-2 auth-form-button" >
+    <p class="mb-2">Already have an Account? <a href="/login">Login insteed</a></p>
 </form>
 
 {% endblock content %}

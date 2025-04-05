@@ -1,42 +1,18 @@
 {% extends 'base.html' %}
     
     {% block heads %}
-    <style>
-        .login-form{
-            display: flex;
-            flex-direction: column;
-            width: 40%;
-            margin-left: 35vw;
-            margin-top: 37vh;
-        }
-
-        .mb-2{
-            margin-bottom: 1vh;
-        }
-
-        .form-login-button{
-            color: blue;
-            border: 2px solid blue;
-            cursor: pointer;
-            border-radius: 2%;
-        }
-
-        .form-login-button:hover{
-            background-color: blue;
-            color: whitesmoke;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/static/css/auth.css">
     {% endblock heads %}
     
     {% block content %}
 
-    <form action="/login/" method="post" class = "login-form">
+    <form action="/login/" method="post" class = "auth-form">
         {% csrf_token %}    
-        <input type="text" name="username" placeholder="Username" class="mb-2" required>
-        <input type="password" name="password" placeholder="Password" class="mb-2" required>
-        <input type="submit" value="Login" class="mb-2 form-login-button">
-        <a href="/register" class="mb-2">Signup Insteed</a>
+        <h1 class="h1-auth">Login</h1>
+        <input type="text" name="username" placeholder="Username" class="mb-2 input-box-auth" required>
+        <input type="password" name="password" placeholder="Password" class="mb-2 input-box-auth" required>
+        <input type="submit" value="Login" class="mb-2 auth-form-button">
+        <p class="mb-2">Do not have an Account? <a href="/register">Signup Insteed</a></p>
     </form>
 
     {% endblock content %}
